@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.learn.mapper.MessagesMapper" >
+  <resultMap id="BaseResultMap" type="com.learn.pojo.Messages" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="ruser_id" property="ruserId" jdbcType="BIGINT" />
+    <result column="luser_id" property="luserId" jdbcType="BIGINT" />
+    <result column="luser_name" property="luserName" jdbcType="VARCHAR" />
+    <result column="publish_id" property="publishId" jdbcType="BIGINT" />
+    <result column="message" property="message" jdbcType="VARCHAR" />
+    <result column="begin_date" property="beginDate" jdbcType="DATE" />
+    <result column="message_type" property="messageType" jdbcType="INTEGER" />
+    <result column="isdeal" property="isdeal" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, ruser_id, luser_id, luser_name, publish_id, message, begin_date, message_type, 
+    isdeal
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.learn.pojo.MessagesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from messages
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from messages
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from messages
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.learn.pojo.MessagesExample" >
+    delete from messages
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.learn.pojo.Messages" >
+    insert into messages (id, ruser_id, luser_id, 
+      luser_name, publish_id, message, 
+      begin_date, message_type, isdeal
+      )
+    values (#{id,jdbcType=BIGINT}, #{ruserId,jdbcType=BIGINT}, #{luserId,jdbcType=BIGINT}, 
+      #{luserName,jdbcType=VARCHAR}, #{publishId,jdbcType=BIGINT}, #{message,jdbcType=VARCHAR}, 
+      #{beginDate,jdbcType=DATE}, #{messageType,jdbcType=INTEGER}, #{isdeal,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective"  parameterType="com.learn.pojo.Messages" >
+
+
+    insert into messages
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ruserId != null" >
+        ruser_id,
+      </if>
+      <if test="luserId != null" >
+        luser_id,
+      </if>
+      <if test="luserName != null" >
+        luser_name,
+      </if>
+      <if test="publishId != null" >
+        publish_id,
+      </if>
+      <if test="message != null" >
+        message,
+      </if>
+      <if test="beginDate != null" >
+        begin_date,
+      </if>
+      <if test="messageType != null" >
+        message_type,
+      </if>
+      <if test="isdeal != null" >
+        isdeal,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ruserId != null" >
+        #{ruserId,jdbcType=BIGINT},
+      </if>
+      <if test="luserId != null" >
+        #{luserId,jdbcType=BIGINT},
+      </if>
+      <if test="luserName != null" >
+        #{luserName,jdbcType=VARCHAR},
+      </if>
+      <if test="publishId != null" >
+        #{publishId,jdbcType=BIGINT},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null" >
+        #{beginDate,jdbcType=DATE},
+      </if>
+      <if test="messageType != null" >
+        #{messageType,jdbcType=INTEGER},
+      </if>
+      <if test="isdeal != null" >
+        #{isdeal,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.learn.pojo.MessagesExample" resultType="java.lang.Integer" >
+    select count(*) from messages
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update messages
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.ruserId != null" >
+        ruser_id = #{record.ruserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.luserId != null" >
+        luser_id = #{record.luserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.luserName != null" >
+        luser_name = #{record.luserName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publishId != null" >
+        publish_id = #{record.publishId,jdbcType=BIGINT},
+      </if>
+      <if test="record.message != null" >
+        message = #{record.message,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beginDate != null" >
+        begin_date = #{record.beginDate,jdbcType=DATE},
+      </if>
+      <if test="record.messageType != null" >
+        message_type = #{record.messageType,jdbcType=INTEGER},
+      </if>
+      <if test="record.isdeal != null" >
+        isdeal = #{record.isdeal,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update messages
+    set id = #{record.id,jdbcType=BIGINT},
+      ruser_id = #{record.ruserId,jdbcType=BIGINT},
+      luser_id = #{record.luserId,jdbcType=BIGINT},
+      luser_name = #{record.luserName,jdbcType=VARCHAR},
+      publish_id = #{record.publishId,jdbcType=BIGINT},
+      message = #{record.message,jdbcType=VARCHAR},
+      begin_date = #{record.beginDate,jdbcType=DATE},
+      message_type = #{record.messageType,jdbcType=INTEGER},
+      isdeal = #{record.isdeal,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.learn.pojo.Messages" >
+    update messages
+    <set >
+      <if test="ruserId != null" >
+        ruser_id = #{ruserId,jdbcType=BIGINT},
+      </if>
+      <if test="luserId != null" >
+        luser_id = #{luserId,jdbcType=BIGINT},
+      </if>
+      <if test="luserName != null" >
+        luser_name = #{luserName,jdbcType=VARCHAR},
+      </if>
+      <if test="publishId != null" >
+        publish_id = #{publishId,jdbcType=BIGINT},
+      </if>
+      <if test="message != null" >
+        message = #{message,jdbcType=VARCHAR},
+      </if>
+      <if test="beginDate != null" >
+        begin_date = #{beginDate,jdbcType=DATE},
+      </if>
+      <if test="messageType != null" >
+        message_type = #{messageType,jdbcType=INTEGER},
+      </if>
+      <if test="isdeal != null" >
+        isdeal = #{isdeal,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.learn.pojo.Messages" >
+    update messages
+    set ruser_id = #{ruserId,jdbcType=BIGINT},
+      luser_id = #{luserId,jdbcType=BIGINT},
+      luser_name = #{luserName,jdbcType=VARCHAR},
+      publish_id = #{publishId,jdbcType=BIGINT},
+      message = #{message,jdbcType=VARCHAR},
+      begin_date = #{beginDate,jdbcType=DATE},
+      message_type = #{messageType,jdbcType=INTEGER},
+      isdeal = #{isdeal,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

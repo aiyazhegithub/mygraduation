@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder
+            location="classpath:conf/common.properties" />
+
+<context:component-scan
+            base-package="com.learn.controller"/>
+    <mvc:annotation-driven/>
+
+    <bean
+            class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/active/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!-- 自定义数据转换类 -->
+    <!--<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="com.learn.commons.tool.DateConverter "/>
+            </set>
+        </property>
+    </bean>-->
+    <!-- 上传图片配置实现类 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+
+    <!-- 配置资源映射 -->
+    <mvc:resources mapping="/assets/**" location="/assets/"
+                   cache-period="31556926"/>
+    <mvc:resources mapping="/dist/**" location="/dist/"
+                   cache-period="31556926"/>
+    <mvc:resources mapping="/img/**" location="/img/"
+                   cache-period="31556926"/>
+    <mvc:resources mapping="/css/**" location="/css/"
+                   cache-period="31556926"/>
+
+    <!-- 配置拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/assets/**"/>
+            <mvc:exclude-mapping path="/dist/**"/>
+            <mvc:exclude-mapping path="/img/**"/>
+            <mvc:exclude-mapping path="/css/**"/>
+            <!-- MVC自定义拦截器 -->
+            <bean class="com.learn.commons.interceptor.LoginInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>
